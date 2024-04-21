@@ -7,14 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgarioModels", "AgarioModel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientGUI", "ClientGUI\ClientGUI.csproj", "{11B6EA6A-8594-49B6-8E0D-D2F18FC00715}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Communications", "Communications\Communications.csproj", "{BFCE8257-9A07-4C82-AD80-8D0C9FDF5FD7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{8526B54A-DEF1-4DD6-81BA-1613ADB84555}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\..\Downloads\Communications.dll = ..\..\..\..\..\Downloads\Communications.dll
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csproj", "{9C176281-249D-4AA7-8EB0-A769BFE73BBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TowardAgarioStepOne", "TowardAgarioStepOne\TowardAgarioStepOne.csproj", "{F7C64437-0163-4101-B5EE-0D042C82942E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TowardAgarioStepTwo", "TowardAgarioStepTwo\TowardAgarioStepTwo.csproj", "{FC048873-2F76-4C7E-8904-B6611C627D9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowardAgarioStepThree", "TowardAgarioStepThree\TowardAgarioStepThree.csproj", "{C680378C-1F6A-46F4-81B6-5CBBAC20C6A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,14 +31,24 @@ Global
 		{11B6EA6A-8594-49B6-8E0D-D2F18FC00715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11B6EA6A-8594-49B6-8E0D-D2F18FC00715}.Release|Any CPU.Build.0 = Release|Any CPU
 		{11B6EA6A-8594-49B6-8E0D-D2F18FC00715}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{BFCE8257-9A07-4C82-AD80-8D0C9FDF5FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFCE8257-9A07-4C82-AD80-8D0C9FDF5FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFCE8257-9A07-4C82-AD80-8D0C9FDF5FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFCE8257-9A07-4C82-AD80-8D0C9FDF5FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C176281-249D-4AA7-8EB0-A769BFE73BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C176281-249D-4AA7-8EB0-A769BFE73BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C176281-249D-4AA7-8EB0-A769BFE73BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C176281-249D-4AA7-8EB0-A769BFE73BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7C64437-0163-4101-B5EE-0D042C82942E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7C64437-0163-4101-B5EE-0D042C82942E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7C64437-0163-4101-B5EE-0D042C82942E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F7C64437-0163-4101-B5EE-0D042C82942E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7C64437-0163-4101-B5EE-0D042C82942E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7C64437-0163-4101-B5EE-0D042C82942E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FC048873-2F76-4C7E-8904-B6611C627D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC048873-2F76-4C7E-8904-B6611C627D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC048873-2F76-4C7E-8904-B6611C627D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC048873-2F76-4C7E-8904-B6611C627D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C680378C-1F6A-46F4-81B6-5CBBAC20C6A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C680378C-1F6A-46F4-81B6-5CBBAC20C6A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C680378C-1F6A-46F4-81B6-5CBBAC20C6A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C680378C-1F6A-46F4-81B6-5CBBAC20C6A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
