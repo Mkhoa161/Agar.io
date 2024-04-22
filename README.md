@@ -110,24 +110,24 @@ versions of our code whenever an added feature failed to function as intended.
 
 # Design Decisions:
 
-        In the design part of the Login GUI, we decided to have a somewhat similar layout as the previous assignment.
-        However, this time will have only the two necessary panels (as users only use ClientGUI):
+In the design part of the Login GUI, we decided to have a somewhat similar layout as the previous assignment.
+However, this time will have only the two necessary panels (as users only use ClientGUI):
         
-        1. The one below the header is used for displaying the connecting status with a dynamic button that makes a 
-        Client can connect OR disconnect to a custom address OR reconnect from an unsuccessful connection. 
+1. The one below the header is used for displaying the connecting status with a dynamic button that makes a 
+Client can connect OR disconnect to a custom address OR reconnect from an unsuccessful connection. 
 
-        2. The top right corner is used as a place for user to input their custom name and the server address (Server),
-            or the custom address for connection (on Client's UI). The name customization feature is only available once
-            the connection is successfully established, and the address customization feature is only available when the
-            connection is NOT yet established.
+2. The top right corner is used as a place for user to input their custom name and the server address (Server),
+    or the custom address for connection (on Client's UI). The name customization feature is only available once
+    the connection is successfully established, and the address customization feature is only available when the
+    connection is NOT yet established.
 
-        In the Playing GUI, we decided to draw somewhat identical with what our professor's ClientGUI example.
-        In constrast, instead of zooming out of the world like in the example. We decided to display a GameOver
-        screen with some game statistics - including the current score, alive time as well as its own records in
-        a connection - together with the restart game button for the player have an ability to restart the game.
+In the Playing GUI, we decided to draw somewhat identical with what our professor's ClientGUI example.
+In constrast, instead of zooming out of the world like in the example. We decided to display a GameOver
+screen with some game statistics - including the current score, alive time as well as its own records in
+a connection - together with the restart game button for the player have an ability to restart the game.
 
 
 # Implementation Notes (optional)
 
-        For this game, since the color of each player is assigned randomly and the text color is black with centered position, 
-        the name may not be visible for all players in some cases.
+    For this game, since the color of each player is assigned randomly and the text color is black with centered position, 
+    the name may not be visible for all players in some cases.
