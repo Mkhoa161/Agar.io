@@ -65,8 +65,14 @@ namespace ClientGUI
                 portalY2 = playerY + (portalH / 2);
 
                 // Drawing the circle for myself
+
+                canvas.FillColor = Color.FromRgb(0, 0, 0);
+                canvas.FillCircle((portalW / 2) * zoomRatio, (portalH / 2) * zoomRatio, (_world.Players[_world.myID]._Radius + 1) * zoomRatio);
+
                 canvas.FillColor = Color.FromArgb(_world.Players[_world.myID].ARGBColor.ToString("X"));
                 canvas.FillCircle((portalW / 2)*zoomRatio, (portalH / 2) * zoomRatio, _world.Players[_world.myID]._Radius * zoomRatio);
+
+                canvas.FillColor = Color.FromRgb(255, 0, 0);
                 canvas.DrawString(_world.Players[_world.myID].Name, (portalW / 2) * zoomRatio, (portalH / 2) * zoomRatio, HorizontalAlignment.Center);
             }
 
@@ -102,8 +108,13 @@ namespace ClientGUI
                         float playerOnScreenX = playerOnPortalX * zoomRatio;
                         float playerOnScreenY = playerOnPortalY * zoomRatio;
 
+                        canvas.FillColor = Color.FromRgb(0,0,0);
+                        canvas.FillCircle(playerOnScreenX, playerOnScreenY, (player._Radius + 1) * zoomRatio);
+
                         canvas.FillColor = Color.FromArgb(player.ARGBColor.ToString("X"));
                         canvas.FillCircle(playerOnScreenX, playerOnScreenY, player._Radius * zoomRatio);
+
+
                         canvas.DrawString(player.Name, playerOnScreenX, playerOnScreenY, HorizontalAlignment.Center);
                     }
                 }
