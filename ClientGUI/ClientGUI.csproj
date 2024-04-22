@@ -66,9 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="Communications">
-	    <HintPath>..\libs\Communications.dll</HintPath>
-	  </Reference>
+	  <Reference Include="..\libs\Communications.dll"></Reference>
 	</ItemGroup>
 
 </Project>
