@@ -21,6 +21,8 @@ using System.Net;
 using System.Text.Json;
 using System.Numerics;
 using System.Diagnostics;
+using ABI.System.Numerics;
+using Microsoft.Maui.Layouts;
 
 
 namespace ClientGUI
@@ -35,14 +37,21 @@ namespace ClientGUI
         private WorldDrawable drawWorld;
         private Networking network;
 
+        private bool alive = false;
+
         private readonly ILogger _logger;
         private IDispatcherTimer gameTimer;
         private IDispatcherTimer fpsTimer;
-        private DateTime lastTimeFrame;
 
         private long myID = 0;
         private int xPos, yPos;
         private int FrameCount = 0;
+
+        private float CurrScore = 0;
+        private float ScoreRecord = 0;
+
+        private int TimeSpanStart, TimeSpanEnd;
+        private float LifeTimeRecord = 0;
 
         /// <summary>
         /// Constructor for MainPage initializing components and setting up networking callbacks.
@@ -72,21 +81,21 @@ namespace ClientGUI
         private void OnMessageArrived(Networking channel, string message)
         {
             // Receive my ID
-            if (message.StartsWith(Protocols.CMD_Player_Object)) 
+            if (message.StartsWith(Protocols.CMD_Player_Object))
             {
                 var myIdInfo = message[Protocols.CMD_Player_Object.Length..];
                 myID = JsonSerializer.Deserialize<long>(myIdInfo);
             }
 
             // Receive list of current food
-            else if (message.StartsWith(Protocols.CMD_Food)) 
+            else if (message.StartsWith(Protocols.CMD_Food))
             {
                 var foodInfo = message[Protocols.CMD_Food.Length..];
                 var foods = JsonSerializer.Deserialize<List<Food>>(foodInfo) ?? throw new InvalidOperationException("Deserialization failed");
 
-                lock (world.Foods) 
+                lock (world.Foods)
                 {
-                    foreach (var food in foods) 
+                    foreach (var food in foods)
                     {
                         var currID = food.ID;
                         if (!world.Foods.ContainsKey(currID))
@@ -99,7 +108,7 @@ namespace ClientGUI
             }
 
             // Receive list of current players
-            else if (message.StartsWith(Protocols.CMD_Update_Players)) 
+            else if (message.StartsWith(Protocols.CMD_Update_Players))
             {
                 var playerInfo = message[Protocols.CMD_Update_Players.Length..];
                 var players = JsonSerializer.Deserialize<List<Player>>(playerInfo) ?? throw new InvalidOperationException("Deserialization failed");
@@ -113,7 +122,7 @@ namespace ClientGUI
                             world.Players.Add(currID, player);
                         else
                             world.Players[currID] = player;
-                        
+
                     }
                 }
 
@@ -124,7 +133,7 @@ namespace ClientGUI
             }
 
             // receive list of eaten food
-            else if (message.StartsWith(Protocols.CMD_Eaten_Food)) 
+            else if (message.StartsWith(Protocols.CMD_Eaten_Food))
             {
                 var eatenFoodInfo = message[Protocols.CMD_Eaten_Food.Length..];
                 var eatenFoodList = JsonSerializer.Deserialize<List<long>>(eatenFoodInfo) ?? throw new InvalidOperationException("Deserialization failed");
@@ -140,7 +149,7 @@ namespace ClientGUI
             }
 
             // receive list of dead players
-            else if (message.StartsWith(Protocols.CMD_Dead_Players)) 
+            else if (message.StartsWith(Protocols.CMD_Dead_Players))
             {
                 var deadPlayersInfo = message[Protocols.CMD_Dead_Players.Length..];
                 var deadPlayersList = JsonSerializer.Deserialize<List<long>>(deadPlayersInfo) ?? throw new InvalidOperationException("Deserialization failed");
@@ -157,6 +166,20 @@ namespace ClientGUI
                         {
                             Dispatcher.Dispatch(() =>
                             {
+                                alive = false;
+
+                                // Display Score (Mass) statistics
+                                if (CurrScore > ScoreRecord) { ScoreRecord = CurrScore; }
+                                Score.Text = $"Score: {CurrScore}";
+                                ScoreRecords.Text = $"(Highest: {ScoreRecord})";
+
+                                // Display Timespan statistics
+                                _logger.LogInformation($"TimeEnd: {TimeSpanEnd}");
+                                var CurrLifeTime = (float) (TimeSpanEnd - TimeSpanStart) / 10;
+                                if (CurrLifeTime > LifeTimeRecord) { LifeTimeRecord = CurrLifeTime; }
+                                LifeTime.Text = $"Alive Time: {CurrLifeTime} seconds";
+                                LifeTimeRecords.Text = $"(Longest: {LifeTimeRecord} seconds)";
+
                                 Alive.IsVisible = false;
                                 GameOver.IsVisible = true;
                             });
@@ -169,13 +192,22 @@ namespace ClientGUI
             }
 
             // receive current heartbeat
-            else if (message.StartsWith(Protocols.CMD_HeartBeat)) 
+            else if (message.StartsWith(Protocols.CMD_HeartBeat))
             {
                 Dispatcher.Dispatch(() =>
                 {
                     var HBCountString = message[Protocols.CMD_HeartBeat.Length..];
                     var HBCount = JsonSerializer.Deserialize<int>(HBCountString);
                     HB.Text = $"Heartbeat: {HBCount}";
+
+                    if (TimeSpanStart == 0 && alive) { TimeSpanStart = HBCount; _logger.LogInformation($"TimeStart: {TimeSpanStart}"); }
+                    
+                    if (alive) 
+                    { 
+                        Split.Focus(); 
+                        TimeSpanEnd = HBCount; 
+                    }
+
                 });
             }
 
@@ -187,7 +219,7 @@ namespace ClientGUI
         /// <param name="channel">Networking channel that was disconnected.</param>
         private void OnDisconnect(Networking channel)
         {
-            
+
         }
 
         /// <summary>
@@ -207,6 +239,14 @@ namespace ClientGUI
             var message = String.Format(Protocols.CMD_Start_Game, PlayerNameEntry.Text);
             await network.SendAsync(message);
             fpsTimer.Start();
+
+            // Reset timespan count for stats
+            TimeSpanStart = 0;
+            TimeSpanEnd = 0;
+
+            alive = true;
+            Dispatcher.Dispatch(() => { Split.Focus(); });
+            
         }
 
         /// <summary>
@@ -274,7 +314,7 @@ namespace ClientGUI
                 StatusMessage.TextColor = new Color(0, 0, 0);
                 StatusMessage.BackgroundColor = new Color(0, 255, 0);
 
-               
+
 
             }
             catch (Exception ex)
@@ -289,11 +329,11 @@ namespace ClientGUI
         /// </summary>
         private void InitializeGameLogic()
         {
+            alive = true;
             PlaySurface.Drawable = drawWorld;
-            lastTimeFrame = DateTime.Now;
-            
+
             // Setup and start the game timer
-            gameTimer = Dispatcher.CreateTimer(); ; 
+            gameTimer = Dispatcher.CreateTimer(); ;
             gameTimer.Interval = TimeSpan.FromMilliseconds(30); // aim for FPS = 30
             gameTimer.Tick += GameStep;
 
@@ -311,7 +351,7 @@ namespace ClientGUI
         /// </summary>
         /// <param name="sender">The object that initiated the event.</param>
         /// <param name="e">Event arguments.</param>
-        private void UpdateFPS(object sender, EventArgs e) 
+        private void UpdateFPS(object sender, EventArgs e)
         {
             int fps = FrameCount;
             Dispatcher.Dispatch(() =>
@@ -356,12 +396,13 @@ namespace ClientGUI
                 // Assuming you have labels named lblCircleCenter and lblDirection in your XAML
                 Dispatcher.Dispatch(() =>
                 {
-                    if (world.Players.ContainsKey(myID))
-                    {
-                        CircleCenter.Text = $"Circle Center: {(int)world.Players[myID].X}, {(int)world.Players[myID].Y}";
-                    }
-                    Direction.Text = $"Direction: {(int) world.myDirection.X}, {(int) world.myDirection.Y}";
+                    CircleCenter.Text = $"Circle Center: {(int)world.Players[myID].X}, {(int)world.Players[myID].Y}";
+                    Direction.Text = $"Direction: {(int)world.myDirection.X}, {(int)world.myDirection.Y}";
+
+                    CurrScore = world.Players[myID].Mass;
                     Mass.Text = $"Mass: {world.Players[myID].Mass}";
+
+
                 });
             }
         }
@@ -375,13 +416,13 @@ namespace ClientGUI
         {
             Point? position = e.GetPosition(PlaySurface);
             // Play Surface is the name of the graphics view to get coordinates relative to.
-            xPos = (int) position.Value.X ;
-            yPos = (int) position.Value.Y ;
+            xPos = (int)position.Value.X;
+            yPos = (int)position.Value.Y;
 
 
             if (world.Players.ContainsKey(myID))
             {
-                world.myDirection = new Vector2(xPos - 250, yPos - 250);
+                world.myDirection = new System.Numerics.Vector2(xPos - 250, yPos - 250);
             }
 
         }
@@ -401,10 +442,10 @@ namespace ClientGUI
         /// </summary>
         /// <param name="sender">The object that initiated the event.</param>
         /// <param name="e">Event arguments</param>
-        private async void OnSpacebarPress(object? sender, EventArgs e) 
+        private async void OnSpacebarPress(object? sender, EventArgs e)
         {
             var message = String.Format(Protocols.CMD_Split, world.myDirection.X, world.myDirection.Y);
-            await network.SendAsync(message); 
+            await network.SendAsync(message);
         }
     }
 }

@@ -217,6 +217,7 @@
                     </Border>
                 </HorizontalStackLayout>
 
+                <!-- World Screen -->
                 <VerticalStackLayout
                 BackgroundColor="LightBlue"
                 x:Name="Alive">
@@ -238,28 +239,75 @@
                     </Entry>
                 </VerticalStackLayout>
 
+                <!-- Game Over Screen -->
                 <VerticalStackLayout
                  BackgroundColor="Red"
                     x:Name="GameOver"
                     IsVisible="false"
                     HeightRequest="500"
-                    WidthRequest="500">
+                    WidthRequest="500"
+                    Opacity="50">
 
-                    <Label Text="Game Over!"
+                    <Label Margin="0,50,0,0"
+                           Text="Game Over :("
+                           TextColor="Yellow"
+                           FontSize="Header"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+
+                    <Label Margin="0,20,0,0"
+                           Text="Game Statistics"
                            TextColor="White"
-                           FontSize="Large"/>
+                           FontSize="Large"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
 
-                    <!-- Restart Button -->
-                    <Button x:Name="RestartButton" 
-                    Text="Connect To Server" 
-                    BackgroundColor="#8A2BE2" 
-                    TextColor="White" 
-                    CornerRadius="10" 
-                    Clicked="OnRestartClicked"
-                    WidthRequest="160"
-                    HorizontalOptions="Start"
-                    Margin="15"/>
+                        <Label Margin="0,10,0,0"
+                               x:Name="Score"
+                               Text="Score: 00000.00000"
+                               TextColor="White"
+                               FontSize="Medium"
+                               HorizontalOptions="Center"/>
+
+                        <Label Margin="0,5,0,0"
+                               x:Name="ScoreRecords"
+                               Text="(Highest: 0.00000)"
+                               TextColor="White"
+                               FontSize="Micro"
+                               HorizontalOptions="Center"/>
+
+                        <Label Margin="0,10,0,0"
+                               x:Name="LifeTime"
+                               Text="Time span: 0 seconds"
+                               TextColor="White"
+                               FontSize="Medium"
+                               HorizontalOptions="Center"/>
+
+                        <Label Margin="0,5,0,0"
+                                   x:Name="LifeTimeRecords"
+                                   Text="(Longest: 0 seconds)"
+                                   TextColor="White"
+                                   FontSize="Micro"
+                                   HorizontalOptions="Center"/>
+
+                    <Label Margin="0,20,0,0"
+                           Text="Want to Play again?"
+                           TextColor="White"
+                           FontSize="Large"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
                     
+                        <!-- Restart Button -->
+                        <Button x:Name="RestartButton" 
+                        Text="Restart Game" 
+                        BackgroundColor="#8A2BE2" 
+                        TextColor="White" 
+                        CornerRadius="10" 
+                        Clicked="OnRestartClicked"
+                        WidthRequest="130"
+                        HorizontalOptions="Center"
+                        Margin="20"/>
+
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
