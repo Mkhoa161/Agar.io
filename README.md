@@ -15,37 +15,37 @@ Copyright:  CS 3500, Khoa Minh Ngo and Duke Nguyen - This work may not be copied
 This document outlines the structure of the Agario solution, which follows the MVC architecture. 
 The solution is divided into several projects, each responsible for different aspects of the application.
 
-    ## AgarioModels
+## AgarioModels
 
-    This Core Library project contains all the model code necessary for representing the game "world". 
-    This includes the management and storage of all game objects. The models defined in this project 
-    are reusable and can also be utilized in server-side code for game logic processing.
+This Core Library project contains all the model code necessary for representing the game "world". 
+This includes the management and storage of all game objects. The models defined in this project 
+are reusable and can also be utilized in server-side code for game logic processing.
 
-    ## ClientGUI
+## ClientGUI
 
-    This is a Core MAUI project that includes all the graphical user interface code. 
-    - **Dependencies**:
-        - **AgarioModels**: References the models project to access the game world and objects.
-        - **Communications**: Utilizes the networking code to handle data transmission.
+This is a Core MAUI project that includes all the graphical user interface code. 
+- **Dependencies**:
+    - **AgarioModels**: References the models project to access the game world and objects.
+    - **Communications**: Utilizes the networking code to handle data transmission.
 
-    ## Communications
+## Communications
 
-    This Core Library project houses the `Networking.cs` code, 
-    which is crucial for handling all network-related operations.
+This Core Library project houses the `Networking.cs` code, 
+which is crucial for handling all network-related operations.
 
-    ## Logger
+## Logger
 
-    This project includes file logger code, which is used across the solution to 
-    facilitate debugging and tracking of runtime operations. Logging is implemented 
-    within each project to capture essential information and errors.
+This project includes file logger code, which is used across the solution to 
+facilitate debugging and tracking of runtime operations. Logging is implemented 
+within each project to capture essential information and errors.
 
-    ## libs
+## libs
 
-    - **Purpose**: If the custom `Networking.cs` code is non-functional or absent, a pre-compiled communications DLL will be used.
-    - **Instructions**:
-        - Create a `libs` folder within the solution directory.
-        - Place the communications DLL within this folder.
-        - Link this DLL to the necessary projects to replace the custom networking code.
+- **Purpose**: If the custom `Networking.cs` code is non-functional or absent, a pre-compiled communications DLL will be used.
+- **Instructions**:
+    - Create a `libs` folder within the solution directory.
+    - Place the communications DLL within this folder.
+    - Link this DLL to the necessary projects to replace the custom networking code.
 
 # Partnership 
 
